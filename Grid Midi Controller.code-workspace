@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../NodeJS code/",
+			"name": "Grid Midi Controller"
+		}
+	],
+	"settings": {
+		"files.autoSave": "onFocusChange",
+		"window.title": "${dirty}${rootName}${separator}${activeEditorShort}${separator}${appName}"
+	}
+}

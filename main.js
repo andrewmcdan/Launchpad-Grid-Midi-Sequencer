@@ -3,7 +3,8 @@
 // setup midi devices
 
 // setup globals
-
+settings = {};
+settings.debugLevel = 5;
 gridState = {};
 gridState.enabledPoints = [];
 for (let i = 0; i < 8; i++) {
@@ -17,7 +18,7 @@ for (let i = 0; i < 8; i++) {
 gridState.currentXstep = 0;
 gridState.currentYstep = 0;
 gridState.tempo = 120; // beat per minute
-gridState.XstepSize = 1; // steps per beat. 0.5 would be eigth notes. 1 is quarter notes.
+gridState.XstepSize = 0.5; // steps per beat. 0.5 would be eigth notes. 1 is quarter notes.
 gridState.YstepSize = 1;
 
 // trnaslate incoming mid from the controller to triggers
@@ -28,10 +29,11 @@ gridState.YstepSize = 1;
 var timePlayX = Date.now();
 var timePlayY = Date.now();
 
+
 function stepHandler() {
     timeCurrent = Date.now();
     var firstIterationOfThisStepX = false;
-    var firstIterationOfThisStepY = false;
+    var firstIterationOfThisStepY = false;    
     // 120 bpm / 60 seconds = 2 beats per second
     // 1 / 2 beats per socond = time for one beat
     // if surrect step * time for one beat is greater than timeCurrent - timePlay
@@ -39,13 +41,13 @@ function stepHandler() {
     //      - increment current step (for both lr and tb if necessary)
     //      - check for note to play
     let beatsPerSecond = gridState.tempo / 60.0;
-    let beatTime = 1 / beatsPerSecond;
+    let beatTime = 1 / beatsPerSecond * 1000;
     let timeSincePlayX = timeCurrent - timePlayX;
     let timeSincePlayY = timeCurrent - timePlayY;
     // console.log("math: " + (beatTime * gridState.currentXstep * gridState.XstepSize * 1000));
     // console.log("X: " ,beatTime,gridState.currentXstep,gridState.XstepSize, timeSincePlayX);
     // console.log("Y: ", beatTime,gridState.currentYstep,gridState.XstepSize, timeSincePlayY)
-    if (beatTime * gridState.currentXstep * gridState.XstepSize * 1000 < timeSincePlayX) {
+    if (beatTime * gridState.currentXstep * gridState.XstepSize <= timeSincePlayX) {
         gridState.currentXstep++;
         firstIterationOfThisStepX = true;
         if(gridState.currentXstep>7){
@@ -53,7 +55,7 @@ function stepHandler() {
             timePlayX = Date.now();
         }
     }
-    if (beatTime * gridState.currentYstep * gridState.YstepSize  * 1000 < timeSincePlayY) {
+    if (beatTime * gridState.currentYstep * gridState.YstepSize <= timeSincePlayY) {
         gridState.currentYstep++;
         firstIterationOfThisStepY = true;
         if(gridState.currentYstep>7){
@@ -71,9 +73,36 @@ function stepHandler() {
     if(firstIterationOfThisStepX||firstIterationOfThisStepY)console.table(gridState.enabledPoints);
 }
 
-setInterval(stepHandler, 1);
+// setInterval(stepHandler, 1);
 
 // console.log(gridState)
+
+var stepped = false;
+
+function advanceXstep(){
+    gridState.currentXstep++;
+    if(gridState.currentXstep>7)gridState.currentXstep=0;
+    stepped = true;
+}
+function advanceYstep(){
+    gridState.currentYstep++;
+    if(gridState.currentYstep>7)gridState.currentYstep=0;
+    stepped = true;
+}
+
+
+let beatsPerSecond = gridState.tempo / 60.0;
+let beatTime = 1 / beatsPerSecond * 1000;
+
+setInterval(advanceXstep,beatTime * gridState.XstepSize);
+setInterval(advanceYstep,beatTime * gridState.YstepSize);
+setInterval(() => {
+    if(stepped){
+        console.log("step: " + gridState.currentXstep + " " + gridState.currentYstep);
+        console.table(gridState.enabledPoints);
+        stepped = false;
+    }
+}, 1);
 
 
 /* #region  debug and exit functions */
