@@ -1,0 +1,62 @@
+{
+  "ftp://192.168.1.118@pi": {
+    ".gitignore": {
+      "type": "-",
+      "size": 14,
+      "lmtime": 0,
+      "modified": false
+    },
+    "Grid Midi Controller.code-workspace": {
+      "type": "-",
+      "size": 253,
+      "lmtime": 0,
+      "modified": false
+    },
+    "main (conflict).js": {
+      "type": "-",
+      "size": 7293,
+      "lmtime": 0,
+      "modified": false
+    },
+    "main.js": {
+      "type": "-",
+      "size": 1929,
+      "lmtime": 0,
+      "modified": false
+    },
+    "midi.js": {
+      "type": "-",
+      "size": 7321,
+      "lmtime": 0,
+      "modified": false
+    },
+    "midi.mjs": {
+      "type": "-",
+      "size": 7321,
+      "lmtime": 0,
+      "modified": false
+    },
+    "node-midi": {},
+    "node_modules": {},
+    "package-lock.json": {
+      "type": "-",
+      "size": 35861,
+      "lmtime": 0,
+      "modified": false
+    },
+    "package.json": {
+      "type": "-",
+      "size": 123,
+      "lmtime": 0,
+      "modified": false
+    },
+    "timing.js": {
+      "type": "-",
+      "size": 5525,
+      "lmtime": 0,
+      "modified": false
+    },
+    "upload": {}
+  },
+  "$version": 1
+}
