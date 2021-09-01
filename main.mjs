@@ -30,6 +30,10 @@ setInterval(()=>{
             stdio: ['inherit','inherit','inherit','ipc']
         });
         midiJs_isStarted = true;
+        midiJsChild.on('exit', (code) => {
+            console.log("midiJS exited. Will restart...");
+            midiJs_isStarted = false;
+        })
     }
     if(launchpadFound && !timingJs_isStarted){
         process.stdout.write("main.mjs -> Starting timing.mjs.\r\n")

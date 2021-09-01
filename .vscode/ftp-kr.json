@@ -2,7 +2,7 @@
     "host": "192.168.1.118",
     "username": "pi",
     "password": "2145rising87",
-    "remotePath": "",
+    "remotePath": "./gridMidi",
     "protocol": "ftp",
     "port": 0,
     "fileNameEncoding": "utf8",

@@ -12,45 +12,33 @@
       "lmtime": 0,
       "modified": false
     },
-    "main (conflict).js": {
+    "main.mjs": {
       "type": "-",
-      "size": 7293,
-      "lmtime": 0,
-      "modified": false
-    },
-    "main.js": {
-      "type": "-",
-      "size": 1929,
-      "lmtime": 0,
-      "modified": false
-    },
-    "midi.js": {
-      "type": "-",
-      "size": 7321,
+      "size": 1906,
       "lmtime": 0,
       "modified": false
     },
     "midi.mjs": {
       "type": "-",
-      "size": 7321,
+      "size": 9972,
       "lmtime": 0,
-      "modified": false
+      "modified": true
     },
     "node-midi": {},
     "node_modules": {},
     "package-lock.json": {
       "type": "-",
-      "size": 35861,
+      "size": 36457,
       "lmtime": 0,
-      "modified": false
+      "modified": true
     },
     "package.json": {
       "type": "-",
-      "size": 123,
+      "size": 150,
       "lmtime": 0,
-      "modified": false
+      "modified": true
     },
-    "timing.js": {
+    "timing.mjs": {
       "type": "-",
       "size": 5525,
       "lmtime": 0,
