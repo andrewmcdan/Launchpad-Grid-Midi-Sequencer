@@ -1,0 +1,1 @@
+Project to turn a Monoprice Grid midi controller into a midi sequencer. Written in node.js and runs on a Raspberry Pi.
