@@ -1,5 +1,117 @@
 {
   "ftp://192.168.1.118@pi": {
+    ".asoundrc": {
+      "type": "-",
+      "size": 215,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".bash_history": {
+      "type": "-",
+      "size": 351,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".bash_logout": {
+      "type": "-",
+      "size": 220,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".bashrc": {
+      "type": "-",
+      "size": 3895,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".cache": {},
+    ".config": {},
+    ".gnupg": {},
+    ".npm": {},
+    ".npm-packages": {},
+    ".npmrc": {
+      "type": "-",
+      "size": 30,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".profile": {
+      "type": "-",
+      "size": 807,
+      "lmtime": 0,
+      "modified": false
+    },
+    "gridMidi": {
+      ".git": {},
+      ".gitignore": {
+        "type": "-",
+        "size": 14,
+        "lmtime": 0,
+        "modified": false
+      },
+      ".vscode": {},
+      "Grid Midi Controller.code-workspace": {
+        "type": "-",
+        "size": 253,
+        "lmtime": 0,
+        "modified": false
+      },
+      "READ.ME": {
+        "type": "-",
+        "size": 8,
+        "lmtime": 0,
+        "modified": false
+      },
+      "main.mjs": {
+        "type": "-",
+        "size": 2061,
+        "lmtime": 0,
+        "modified": false
+      },
+      "midi (conflict).mjs": {
+        "type": "-",
+        "size": 26890,
+        "lmtime": 0,
+        "modified": false
+      },
+      "midi.mjs": {
+        "type": "-",
+        "size": 26942,
+        "lmtime": 0,
+        "modified": true
+      },
+      "node.code-workspace": {
+        "type": "-",
+        "size": 253,
+        "lmtime": 0,
+        "modified": false
+      },
+      "node_modules": {},
+      "package-lock.json": {
+        "type": "-",
+        "size": 98400,
+        "lmtime": 0,
+        "modified": false
+      },
+      "package.json": {
+        "type": "-",
+        "size": 209,
+        "lmtime": 0,
+        "modified": false
+      },
+      "timing.mjs": {
+        "type": "-",
+        "size": 5525,
+        "lmtime": 0,
+        "modified": false
+      }
+    },
+    "npm-g-nosudo.sh": {
+      "type": "-",
+      "size": 3961,
+      "lmtime": 0,
+      "modified": false
+    },
     ".gitignore": {
       "type": "-",
       "size": 14,
@@ -44,7 +156,76 @@
       "lmtime": 0,
       "modified": false
     },
-    "upload": {}
+    "upload": {},
+    "home": {
+      "pi": {
+        "gridMidi": {
+          ".git": {},
+          ".gitignore": {
+            "type": "-",
+            "size": 14,
+            "lmtime": 0,
+            "modified": false
+          },
+          ".vscode": {},
+          "Grid Midi Controller.code-workspace": {
+            "type": "-",
+            "size": 253,
+            "lmtime": 0,
+            "modified": false
+          },
+          "READ.ME": {
+            "type": "-",
+            "size": 8,
+            "lmtime": 0,
+            "modified": false
+          },
+          "main.mjs": {
+            "type": "-",
+            "size": 2061,
+            "lmtime": 1630784319329,
+            "modified": false
+          },
+          "midi (conflict).mjs": {
+            "type": "-",
+            "size": 26890,
+            "lmtime": 1630785733290,
+            "modified": false
+          },
+          "midi.mjs": {
+            "type": "-",
+            "size": 29078,
+            "lmtime": 1630950339325,
+            "modified": false
+          },
+          "node.code-workspace": {
+            "type": "-",
+            "size": 253,
+            "lmtime": 0,
+            "modified": false
+          },
+          "node_modules": {},
+          "package-lock.json": {
+            "type": "-",
+            "size": 98400,
+            "lmtime": 0,
+            "modified": false
+          },
+          "package.json": {
+            "type": "-",
+            "size": 209,
+            "lmtime": 0,
+            "modified": false
+          },
+          "timing.mjs": {
+            "type": "-",
+            "size": 5525,
+            "lmtime": 0,
+            "modified": false
+          }
+        }
+      }
+    }
   },
   "$version": 1
 }

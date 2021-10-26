@@ -35,24 +35,23 @@ setInterval(()=>{
             midiJs_isStarted = false;
         })
     }
-    if(launchpadFound && !timingJs_isStarted){
-        process.stdout.write("main.mjs -> Starting timing.mjs.\r\n")
-        let command = 'node';
-        let parameters = [path.resolve('timing.mjs')];
-        timingJsChild = spawn.spawn(command,parameters,{
-            stdio: ['pipe','pipe','pipe','ipc']
-        });
-        timingJs_isStarted = true;
-        
-    }
+    // if(launchpadFound && !timingJs_isStarted){
+    //     process.stdout.write("main.mjs -> Starting timing.mjs.\r\n")
+    //     let command = 'node';
+    //     let parameters = [path.resolve('timing.mjs')];
+    //     timingJsChild = spawn.spawn(command,parameters,{
+    //         stdio: ['pipe','pipe','pipe','ipc']
+    //     });
+    //     timingJs_isStarted = true;
+    // }
     if(!launchpadFound && midiJs_isStarted){
         process.stdout.write("\r\nmain.mjs -> Launchpad not found. Killing midi.mjs.\r\n");
         kill(midiJsChild.pid);
         midiJs_isStarted = false;
     }
-    if(!launchpadFound && timingJs_isStarted){
-        process.stdout.write("main.mjs -> Launchpad not found. Killing timing.mjs.\r\n");
-        kill(timingJsChild.pid);
-        timingJs_isStarted = false;
-    }
+    // if(!launchpadFound && timingJs_isStarted){
+    //     process.stdout.write("main.mjs -> Launchpad not found. Killing timing.mjs.\r\n");
+    //     kill(timingJsChild.pid);
+    //     timingJs_isStarted = false;
+    // }
 },1000)

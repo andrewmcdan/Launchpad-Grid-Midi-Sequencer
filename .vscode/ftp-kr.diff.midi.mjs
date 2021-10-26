@@ -1,12 +1,12 @@
 /* cSpell:disable*/
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-// NodeJS project for monoprice grid controller project
+// NodeJS projet for monoprice grid controller project
 
 var welcomeMessageEnable = false;
 
 import os from 'os';
 // var fs = require('fs');
-// import ipc from 'node-ipc';
+import ipc from 'node-ipc';
 import midi from 'midi';
 // const {
 //     v4: uuidv4
@@ -33,6 +33,11 @@ const port = new SerialPort('/dev/serial0', {
 // // let t1 = Date.now();
 // // console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
 
+process.on('message', (mes) => {
+    console.log("received message: ");
+    console.log(mes);
+})
+
 
 // Create new midi device constants for the launchpad
 const launchpadMidiIn = new midi.Input(),
@@ -44,8 +49,7 @@ var midiInputDevices = [],
     midiOutputDevicesNames = [],
     midiOutputDevicesEnabled = [],
     midiInputDevicesHidden = [],
-    midiOutputDevicesHidden = [],
-    midiOutputDevicesClockEn = [];
+    midiOutputDevicesHidden = [];
 
 for (let step = 0; step < launchpadMidiIn.getPortCount(); step++) {
     if (launchpadMidiIn.getPortName(step).search("Launchpad Mini MK3:Launchpad Mini MK3 MIDI 2") != -1) {
@@ -80,7 +84,6 @@ for (let step = 0; step < launchpadMidiOut.getPortCount(); step++) {
         midiOutputDevices[step].openPort(step);
         midiOutputDevicesNames[step] = midiOutputDevices[step].getPortName(step);
         midiOutputDevicesEnabled[step] = true;
-        midiOutputDevicesClockEn[step] = true;
         if (midiOutputDevicesNames[step].includes("RtMidi Input Client") || midiOutputDevicesNames[step].includes("Midi Through:Midi Through Port") || midiOutputDevicesNames[step].includes("Launchpad Mini MK3:Launchpad Mini MK3 MIDI")) {
             midiOutputDevicesHidden[step] = true;
         } else {
@@ -129,13 +132,8 @@ class gridPattern {
         this.grid = [];
         this.xSize = 8;
         this.ySize = 8;
-        this.xViewIndex = 0;
-        this.yViewIndex = 0;
-        this.currentXstep = 0;
-        this.currentXstepCount = 0;
-        this.currentYstep = 0;
-        this.currentYstepCount = 0;
-        this.stepSize = 24; // number of ticks for ea step. 24 ticks = 1 beat
+        this.xIndex = 0;
+        this.yIndex = 0;
         // @note pattern outPort spec
         // outport will match the index of the midi device in "midiInputDevices"/"midiOuputDevices".
         // If outPort is > 1000, it is a CV output.
@@ -157,11 +155,11 @@ class gridPattern {
     }
     toggleButton(x, y) {
         console.log(`toggle ${x}, ${y}`)
-        if ((x + this.xViewIndex) < this.xSize && (y + this.yViewIndex) < this.ySize) {
-            if (this.grid[x + this.xViewIndex][y + this.yViewIndex].enabled == 1) {
-                this.grid[x + this.xViewIndex][y + this.yViewIndex].enabled = 0;
+        if ((x + this.xIndex) < this.xSize && (y + this.yIndex) < this.ySize) {
+            if (this.grid[x + this.xIndex][y + this.yIndex].enabled == 1) {
+                this.grid[x + this.xIndex][y + this.yIndex].enabled = 0;
             } else {
-                this.grid[x + this.xViewIndex][y + this.yViewIndex].enabled = 1;
+                this.grid[x + this.xIndex][y + this.yIndex].enabled = 1;
             }
             return true;
         }
@@ -189,35 +187,23 @@ class gridPattern {
     }
     setVelocity(x,y,val = 0){
         if(val < 128){
-            this.grid[x + this.xViewIndex][y + this.yViewIndex].velocity = val;
+            this.grid[x + this.xIndex][y + this.yIndex].velocity = val;
         }else{
-            this.grid[x + this.xViewIndex][y + this.yViewIndex].velocity = 127;
+            this.grid[x + this.xIndex][y + this.yIndex].velocity = 127;
         }
     }
     getVelocity(x,y){
-        return this.grid[x + this.xViewIndex][y + this.yViewIndex].velocity;
+        return this.grid[x + this.xIndex][y + this.yIndex].velocity;
     }
     setNote(x,y,val = 0){
         if(val < 128){
-            this.grid[x + this.xViewIndex][y + this.yViewIndex].note = val;
+            this.grid[x + this.xIndex][y + this.yIndex].note = val;
         }else{
-            this.grid[x + this.xViewIndex][y + this.yViewIndex].note = 127;
+            this.grid[x + this.xIndex][y + this.yIndex].note = 127;
         }
     }
     getNote(x,y){
-        return this.grid[x + this.xViewIndex][y + this.yViewIndex].note;
-    }
-    setNoteLength(x,y,val){
-        if(val < 15000){
-            this.grid[x + this.xViewIndex][y + this.yViewIndex].noteLength = val;
-        }
-    }
-    getNoteLength(x,y){
-        return this.grid[x + this.xViewIndex][y + this.yViewIndex].noteLength;
-    }
-
-    playNote(x,y){
-        // @todo 
+        return this.grid[x + this.xIndex][y + this.yIndex].note;
     }
 
     getOutPort(){
@@ -234,7 +220,6 @@ class gridPattern {
     }
 }
 var gridState = {};
-gridState.bpm = 120;
 gridState.gridMode = "normal";
 gridState.currentSelectedPattern = 0;
 gridState.patterns = [7];
@@ -251,8 +236,7 @@ let lastPressedGridButton = [0,0];
 let tempVelocity = 0;
 let tempNote = 0;
 let tempOctave = 5;
-let tempnoteLength = [0,0];
-
+let tempnoteLength = 1;
 launchpadMidiIn.on('message', (deltaTime, message) => {
     debug(`m: ${message} d: ${deltaTime}`);
     
@@ -268,15 +252,6 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
 
     let gridY = ((message[1] / 10) | 0) - 1;
     let gridX = (message[1] % 10) - 1;
-
-    if(message[0] == 176 && message[2] == 127){
-        switch(message[1]){
-            case 89:{
-                gridState.playing = !gridState.playing;
-                break;
-            }
-        }
-    }
     
 
     switch(gridState.gridMode){
@@ -334,7 +309,6 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
                     gridState.gridMode = "normal";
                     gridState.patterns[gridState.currentSelectedPattern].setVelocity(lastPressedGridButton[0], lastPressedGridButton[1],tempVelocity);
                     gridState.patterns[gridState.currentSelectedPattern].setNote(lastPressedGridButton[0], lastPressedGridButton[1],tempNote);
-                    gridState.patterns[gridState.currentSelectedPattern].setNoteLength(lastPressedGridButton[0], lastPressedGridButton[1],calculateNoteLength(tempnoteLength,gridState.bpm));
                     clearGrid();
                     copyCurrentPatternGridEnabledToGridColor();
                 }
@@ -345,14 +319,15 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
                 // note-on message
                 // check for note buttons on grid
                 if(gridY == 1){
+                    // @todo play note
                     let naturalNoteOffsets = [0,2,4,5,7,9,11,12];
                     tempNote = naturalNoteOffsets[gridX] + (tempOctave * 12);
                     // console.log({tempNote})
-                    playNote(gridState.patterns[gridState.currentSelectedPattern].getOutPort().portIndex,gridState.patterns[gridState.currentSelectedPattern].getOutPort().channel,tempNote,tempVelocity,gridState.patterns[gridState.currentSelectedPattern].getNoteLength(lastPressedGridButton[0],lastPressedGridButton[1]));
+                    playNote(gridState.patterns[gridState.currentSelectedPattern].getOutPort().portIndex,gridState.patterns[gridState.currentSelectedPattern].getOutPort().channel,tempNote,tempVelocity);
                 }else if(gridY == 2){
                     let sharpFlatNoteOffsets = [0,1,3,3,6,8,10,12];
                     tempNote = sharpFlatNoteOffsets[gridX] + (tempOctave * 12);
-                    playNote(gridState.patterns[gridState.currentSelectedPattern].getOutPort().portIndex,gridState.patterns[gridState.currentSelectedPattern].getOutPort().channel,tempNote,tempVelocity,gridState.patterns[gridState.currentSelectedPattern].getNoteLength(lastPressedGridButton[0],lastPressedGridButton[1]));
+                    playNote(gridState.patterns[gridState.currentSelectedPattern].getOutPort().portIndex,gridState.patterns[gridState.currentSelectedPattern].getOutPort().channel,tempNote,tempVelocity);
                     // console.log({tempNote})
                 }else if(gridY == 0){
                     tempOctave = gridX + 1;
@@ -397,9 +372,6 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
                             // tempVelocity = gridState.patterns[gridState.currentSelectedPattern].getVelocity(gridX, gridY);
                             // tempNote = gridState.patterns[gridState.currentSelectedPattern].getNote(gridX, gridY);
                             console.log("break")
-                            tempnoteLength[0] = gridX;
-                        }else{
-                            tempnoteLength[1] = gridX;
                         }
                     }
                 }
@@ -443,7 +415,7 @@ function copyCurrentPatternGridEnabledToGridColor() {
         for (let y = 0; y < 8; y++) {
             let currentPattern = gridState.patterns[gridState.currentSelectedPattern];
             // console.log(currentPattern.grid[x+currentPattern.xIndex])
-            if (currentPattern.grid[x + currentPattern.xViewIndex][y + currentPattern.yViewIndex].enabled == 1) {
+            if (currentPattern.grid[x + currentPattern.xIndex][y + currentPattern.yIndex].enabled == 1) {
                 gridState.gridColor[x][y].r = 0;
                 gridState.gridColor[x][y].g = 0;
                 gridState.gridColor[x][y].b = 127;
@@ -595,65 +567,8 @@ function playNote(deviceIndex,channel,note,velocity,length = -1){
     }
 }
 
-function advanceX(){
-    gridState.patterns.forEach((pattern,ind) => {
-        if(pattern.currentXstepCount==0){
-            // turn all in column white if in view
-
-            // find and play enabled notes
-            pattern.grid.forEach((col,colInd) => {
-                if(colInd == pattern.currentXstep){
-                    col.forEach((note) => {
-                        if(note.enabled){
-                            console.log({colInd});
-                            console.log({note})
-                            // @todo 
-                        }
-                    })
-                }
-            })
-            // advance to next step
-            pattern.currentXstep++;
-            if(pattern.currentXstep >= pattern.xSize){
-                pattern.currentXstep = 0;
-            }
-        }
-        pattern.currentXstepCount++;
-        if(pattern.currentXstepCount == pattern.stepSize){
-            pattern.currentXstepCount = 0;
-        }
-    })
-
-}
-
-function advanceY(){
-    // @todo 
-}
-
-let tickTimer_1 = Date.now();
-var counter_1 = 0;
-setInterval(() => {
-    let tickTimer_2 = Date.now();
-    let tickTime = ((60 / ( gridState.bpm / 4)) / 96 ) * 1000;
-    if(tickTimer_2 - tickTimer_1 > tickTime){
-        tickTimer_1 = Date.now();
-        // console.log(`tick: ${counter_1++}`);
-        if(gridState.playing){
-            midiOutputDevicesClockEn.forEach((devEn,devInd)=>{
-                if(devEn){
-                    midiOutputDevices[devInd].send([248])
-                }
-            })
-            //@todo send midi clock using non-USB midi ports, if enabled
-            advanceX();
-            advanceY();
-        }
-    }
-}, 1);
-
 
 function calculateNoteLength(noteLengthIndex,bpm){
-    
     let noteLengthArray = [
         [1/24,  2/24,   3/24,   4/24,   5/24,   6/24,   7/24,   8/24], // sixteenth triplets
         [1/16,  2/16,   3/16,   4/16,   5/16,   6/16,   7/16,   8/16], // sixteenths
@@ -662,12 +577,10 @@ function calculateNoteLength(noteLengthIndex,bpm){
         [1/6,   2/6,    3/6,    4/6,    5/6,    6/6,    7/6,    8/6], // quater triplets
         [1/4,   2/4,    3/4,    4/4,    5/4,    6/4,    7/4,    8/4], // qarters
         [1/3,   2/3,    3/3,    4/3,    5/3,    6/3,    7/3,    8/3], // half note triplets
-        [1/2,   2/2,    3/2,    4/2,    5/2,    6/2,    7/2,    8/2] // half notes
+        [1/2,   2/2,    3/2,    4/2,    5/2,    6/2,    7/2,    8/2], // half notes
     ];
     let secondsPerMeasure = 60 / ( bpm / 4);
-    let noteTime = secondsPerMeasure * noteLengthArray[noteLengthIndex[0]][noteLengthIndex[1]];
-    console.log(noteLengthIndex,bpm,noteLengthArray[noteLengthIndex[0]][noteLengthIndex[1]])
-    console.log({noteTime});
+    let noteTime = secondsPerMeasure * noteLengthArray[noteLengthIndex[0],noteLengthIndex[1]];
     return noteTime * 1000;
 }
 
