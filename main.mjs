@@ -5,9 +5,9 @@ import path from 'path';
 import kill from 'tree-kill';
 
 var midiJsChild;
-var timingJsChild;
+// var timingJsChild;
 var midiJs_isStarted = false;
-var timingJs_isStarted = false;
+// var timingJs_isStarted = false;
 var launchpadFound = false;
 
 const midiIn = new midi.Input();

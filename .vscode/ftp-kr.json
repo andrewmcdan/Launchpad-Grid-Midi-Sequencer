@@ -1,5 +1,6 @@
 {
-    "host": "192.168.1.118",
+    // "host": "192.168.1.118",
+    "host": "10.0.0.201",
     "username": "pi",
     "password": "2145rising87",
     "remotePath": "./gridMidi",
