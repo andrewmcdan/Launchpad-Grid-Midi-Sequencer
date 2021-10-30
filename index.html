@@ -1,0 +1,43 @@
+<html>
+<head>
+  <title>MIDI connecter</title>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" sizes="196x196" href="/icon/">
+  <link rel='stylesheet' href='index.html.css'>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="apple-touch-icon" href="/icon/" />
+</head>
+<body>
+  <div id="mainDiv">
+    <div id="topNav">
+      <div id="topNavNoteOptsButton" class="selectedOptsView">Note</div>
+      <div id="topNavPatternOptsButton" class="unselectedOptsView">Pattern</div>
+      <div id="topNavGeneralOptsButton" class="unselectedOptsView">General</div>
+    </div>
+    <div id="noteOptsView">
+      <div id="noteCurrentSettings">
+        <div id="currentSettingText" class="float_left">Current Setting:</div>
+        <div id="noteValue" class="float_left">
+          <div>Value</div>
+          <div id="noteValue_val">the val</div>
+        </div>
+        <div id="noteVelocity" class="float_left">
+          <div>Velocity</div>
+          <div id="noteVelocity_val">the val</div>
+        </div>
+        <div id="noteLength" class="float_left">
+          <div>Length</div>
+          <div id="noteLength_val">the val</div>
+        </div>
+      </div>
+      <div id="notesIncoming" class="float_none">Most recent incoming note:
+        <div></div>
+      </div>
+    </div>
+    <div id="patternOptsView" class="hidden">pattern options view</div>
+    <div id="generalOptsView" class="hidden">general options view</div>
+  </div>
+</body>
+<script src='index.html.js'></script>
+</html>

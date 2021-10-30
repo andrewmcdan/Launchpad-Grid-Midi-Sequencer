@@ -1,0 +1,83 @@
+body{
+    background-color: lightgray;
+    overflow: hidden;
+}
+
+div {
+    font-size: 5.5vh;
+}
+
+#topNav{
+    width: calc(100vw - 20px);
+}
+
+#topNavNoteOptsButton, #topNavPatternOptsButton, #topNavGeneralOptsButton{
+    width: calc(((100vw - 20px) / 3 ) - 2px);
+    height: 10vh;
+    line-height: 10vh;
+    vertical-align: middle;
+    float: left;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 8vh;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#noteOptsView, #patternOptsView, #generalOptsView{
+    height: calc(90vh - 3px);
+    width: calc(100vw - 20px);
+}
+
+.hidden{
+    display:none;
+}
+
+.selectedOptsView{
+    background-color: lightgray;
+}
+
+.unselectedOptsView{
+    background-color: darkgray;
+}
+
+.float_left{
+    float: left;
+}
+
+.float_none{
+    float: none;
+}
+
+#noteCurrentSettings{
+    width: calc(100vw - 20px);
+    display: grid;
+    grid-auto-rows: minmax(100px,auto);
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    border-bottom: 1px solid black;
+}
+
+#currentSettingText{
+    grid-column: 1;
+    grid-row: 1 / 2;
+    font-size: 8vh;
+    width: 15vw;
+}
+
+#noteValue{
+    grid-column: 2;
+    grid-row: 1 / 2 ;
+}
+
+#noteVelocity{
+    grid-column: 3;
+    grid-row: 1 / 2;
+}
+#noteLength{
+    grid-column: 4;
+    grid-row: 1 / 2;
+}
+#notesIncoming{
+    grid-column: 1;
+    grid-row: 2;
+}

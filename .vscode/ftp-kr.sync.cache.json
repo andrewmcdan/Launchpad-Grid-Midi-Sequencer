@@ -1,46 +1,5 @@
 {
-  "ftp://192.168.1.118@pi": {
-    ".asoundrc": {
-      "type": "-",
-      "size": 215,
-      "lmtime": 0,
-      "modified": false
-    },
-    ".bash_history": {
-      "type": "-",
-      "size": 351,
-      "lmtime": 0,
-      "modified": false
-    },
-    ".bash_logout": {
-      "type": "-",
-      "size": 220,
-      "lmtime": 0,
-      "modified": false
-    },
-    ".bashrc": {
-      "type": "-",
-      "size": 3895,
-      "lmtime": 0,
-      "modified": false
-    },
-    ".cache": {},
-    ".config": {},
-    ".gnupg": {},
-    ".npm": {},
-    ".npm-packages": {},
-    ".npmrc": {
-      "type": "-",
-      "size": 30,
-      "lmtime": 0,
-      "modified": false
-    },
-    ".profile": {
-      "type": "-",
-      "size": 807,
-      "lmtime": 0,
-      "modified": false
-    },
+  "ftp://10.0.0.201@pi": {
     "gridMidi": {
       ".git": {},
       ".gitignore": {
@@ -76,9 +35,9 @@
       },
       "midi.mjs": {
         "type": "-",
-        "size": 26942,
+        "size": 29078,
         "lmtime": 0,
-        "modified": true
+        "modified": false
       },
       "node.code-workspace": {
         "type": "-",
@@ -106,57 +65,6 @@
         "modified": false
       }
     },
-    "npm-g-nosudo.sh": {
-      "type": "-",
-      "size": 3961,
-      "lmtime": 0,
-      "modified": false
-    },
-    ".gitignore": {
-      "type": "-",
-      "size": 14,
-      "lmtime": 0,
-      "modified": false
-    },
-    "Grid Midi Controller.code-workspace": {
-      "type": "-",
-      "size": 253,
-      "lmtime": 0,
-      "modified": false
-    },
-    "main.mjs": {
-      "type": "-",
-      "size": 1906,
-      "lmtime": 0,
-      "modified": false
-    },
-    "midi.mjs": {
-      "type": "-",
-      "size": 9972,
-      "lmtime": 0,
-      "modified": true
-    },
-    "node-midi": {},
-    "node_modules": {},
-    "package-lock.json": {
-      "type": "-",
-      "size": 36457,
-      "lmtime": 0,
-      "modified": true
-    },
-    "package.json": {
-      "type": "-",
-      "size": 150,
-      "lmtime": 0,
-      "modified": true
-    },
-    "timing.mjs": {
-      "type": "-",
-      "size": 5525,
-      "lmtime": 0,
-      "modified": false
-    },
-    "upload": {},
     "home": {
       "pi": {
         "gridMidi": {
@@ -180,22 +88,46 @@
             "lmtime": 0,
             "modified": false
           },
+          "README": {
+            "type": "-",
+            "size": 258,
+            "lmtime": 1635341769696,
+            "modified": false
+          },
+          "index.html": {
+            "type": "-",
+            "size": 498,
+            "lmtime": 1635515102625,
+            "modified": false
+          },
+          "index.html.css": {
+            "type": "-",
+            "size": 0,
+            "lmtime": 1635515070944,
+            "modified": false
+          },
+          "index.html.js": {
+            "type": "-",
+            "size": 0,
+            "lmtime": 1635515064163,
+            "modified": false
+          },
           "main.mjs": {
             "type": "-",
-            "size": 2061,
-            "lmtime": 1630784319329,
+            "size": 3845,
+            "lmtime": 1635514651671,
             "modified": false
           },
           "midi (conflict).mjs": {
             "type": "-",
             "size": 26890,
-            "lmtime": 1630785733290,
+            "lmtime": 0,
             "modified": false
           },
           "midi.mjs": {
             "type": "-",
-            "size": 29078,
-            "lmtime": 1630950339325,
+            "size": 39615,
+            "lmtime": 1635514925020,
             "modified": false
           },
           "node.code-workspace": {
@@ -207,15 +139,15 @@
           "node_modules": {},
           "package-lock.json": {
             "type": "-",
-            "size": 98400,
+            "size": 150323,
             "lmtime": 0,
-            "modified": false
+            "modified": true
           },
           "package.json": {
             "type": "-",
-            "size": 209,
+            "size": 272,
             "lmtime": 0,
-            "modified": false
+            "modified": true
           },
           "timing.mjs": {
             "type": "-",
