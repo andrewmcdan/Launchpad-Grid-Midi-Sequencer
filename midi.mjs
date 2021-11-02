@@ -553,6 +553,9 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
     let gridY = ((message[1] / 10) | 0) - 1;
     let gridX = (message[1] % 10) - 1;
 
+
+    // if the first byte of the message was 176 and the 3rd was 127, then that was a button down
+    // for any button not on the grid.
     if(message[0] == 176 && message[2] == 127){
         playButtonDownTime = Date.now();
         let patternNum;
@@ -635,7 +638,7 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
                     gridState.patterns[patternNum].tickReset();
                     gridState.numberOfPlayingPatterns--;
                 }else{
-                    // increase number f playing patterns
+                    // increase number of playing patterns
                     gridState.numberOfPlayingPatterns++;
                 }
             }
