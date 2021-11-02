@@ -31,6 +31,7 @@ import midi from 'midi';
 // } = require('uuid');
 import rpio from 'rpio';
 import SerialPort from 'serialport'
+import { uptime } from 'process';
 
 // "port" is an object for communicating over the serial port with the teensy
 const port = new SerialPort('/dev/serial0', {
@@ -179,7 +180,7 @@ if (welcomeMessageEnable) {
 }
 
 // Scrolls text across the launchpad.
-function sendScrollTextToLaunchPad(textToSend,color = {r = 0, g = 127, b = 127},speed = 10){
+function sendScrollTextToLaunchPad(textToSend,color = {r: 0, g: 127, b: 127},speed = 10){
     launchpadMidiOut.send([240, 0, 32, 41, 2, 13, 7, 0, speed, 1, color.r, color.g, color.b].concat(getCharCodes(textToSend)).concat(247));
 }
 
@@ -458,11 +459,59 @@ class gridPattern {
     }
 }
 
+
+/***
+ * start of managed button test. if I can get this to work, it'll become permanent. Otherwise,
+ * it'll be deleted.
+ */
 class managedButton{
-    constructor(test){
-        this.aTestVar = {bool = false, int = 2};
+    constructor(lpt = 1000){
+        this.aTestVar = {bool: false, int: 2};
+        console.log(this.aTestVar);
+        this.buttonEnabled = true;
+        this.shortPressFunc = function(){};
+        this.longPressFunc = function(){};
+        this.downFuncImmediate = false;
+        this.downTime = 0;
+        this.upTime = 0;
+        this.timeSpentPressed = 0;
+        this.longPressTime = lpt;
+    }
+
+    buttonDown(){
+        this.downTime = Date.now();
+        if(this.downFuncImmediate){
+            this.shortPressFunc();
+        }
+    }
+
+    buttonUp(){
+        this.upTime = Date.now();
+        this.timeSpentPressed = this.upTime - this.downTime;
+        if(this.timeSpentPressed > this.longPressTime){
+            this.longPressFunc();
+        }
+    }
+
+    setShortPressFunc(f,immediate = false){
+        this.shortPressFunc = f;
+        this.downFuncImmediate = immediate;
+    }
+
+    setLongPressFunc(f){
+        this.longPressFunc = f;
     }
 }
+
+let gridButtons = [8][8];
+for(let x = 0; x < 3; x++){
+    for(let y = 0; y < 3; y++){
+        gridButtons[x][y] = new managedButton();
+    }
+}
+/****
+ * end of managed button test.
+ */
 
 var gridState = {};
 gridState.bpm = 120;
