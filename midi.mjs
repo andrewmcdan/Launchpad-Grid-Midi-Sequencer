@@ -458,6 +458,12 @@ class gridPattern {
     }
 }
 
+class managedButton{
+    constructor(test){
+        this.aTestVar = {bool = false, int = 2};
+    }
+}
+
 var gridState = {};
 gridState.bpm = 120;
 gridState.gridMode = "normal";
