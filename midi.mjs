@@ -572,6 +572,9 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
             }
         }
 
+        
+
+
         if(message[1] < 90){
             if(patternNum != gridState.currentSelectedPattern){
                 gridState.currentSelectedPattern = patternNum;
@@ -591,6 +594,8 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
                 }
             }
         }
+
+        copyCurrentPatternGridEnabledToGridColor();
 
         if(gridState.numberOfPlayingPatterns == 0){
             gridState.playing = false;
