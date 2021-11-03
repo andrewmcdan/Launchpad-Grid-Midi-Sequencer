@@ -87,7 +87,7 @@ setInterval(()=>{
         kill(midiJsChild.pid);
         midiJs_isStarted = false;
         if(!serverIsListening){
-            console.log("Starting web server...");
+            console.log("main.mjs -> Starting web server...");
             server.listen(8080);
             serverIsListening = true;
         }

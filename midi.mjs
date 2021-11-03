@@ -51,7 +51,7 @@ socketio.on("connection", socket => {
     console.log(socket);
 })
 
-console.log("Starting web server...");
+console.log("MIDI.mjs -> Starting web server...");
 // webserver listens on 8080. port 80 would require running as root or extra setup
 server.listen(8080);
 server.on('error', (e) => {
@@ -465,9 +465,8 @@ class gridPattern {
  * it'll be deleted.
  */
 class managedButton{
-    constructor(lpt = 1000){
+    constructor(lpt = 1000){ // lpt is long press time
         this.aTestVar = {bool: false, int: 2};
-        console.log(this.aTestVar);
         this.buttonEnabled = true;
         this.shortPressFunc = function(){};
         this.longPressFunc = function(){};
@@ -476,39 +475,68 @@ class managedButton{
         this.upTime = 0;
         this.timeSpentPressed = 0;
         this.longPressTime = lpt;
+        this.isPressed = false;
     }
-
     buttonDown(){
         this.downTime = Date.now();
+        this.isPressed = true;
         if(this.downFuncImmediate){
             this.shortPressFunc();
         }
     }
-
     buttonUp(){
         this.upTime = Date.now();
+        this.isPressed = false;
         this.timeSpentPressed = this.upTime - this.downTime;
         if(this.timeSpentPressed > this.longPressTime){
             this.longPressFunc();
         }
     }
-
     setShortPressFunc(f,immediate = false){
         this.shortPressFunc = f;
         this.downFuncImmediate = immediate;
     }
-
     setLongPressFunc(f){
         this.longPressFunc = f;
     }
-}
-
-let gridButtons = [8][8];
-for(let x = 0; x < 3; x++){
-    for(let y = 0; y < 3; y++){
-        gridButtons[x][y] = new managedButton();
+    isButtonPressed(){
+        return this.isPressed;
     }
 }
+
+class launchpadManager{
+    constructor(){
+        //need managed buttons for grid buttons, view control buttons, sesh/drum/keys/user buttons, play/stop buttons
+        this.gridButtons = [8];
+        for(let x = 0; x < 3; x++){
+            this.gridButtons[x] = [8];
+            for(let y = 0; y < 3; y++){
+                this.gridButtons[x][y] = new managedButton(800);
+            }
+        }
+        this.numberOfGridButtonsPressed = 0;
+
+        this.viewControlButtons = [4];
+        for(let i = 0; i < 4; i++){
+            this.viewControlButtons[i] = new managedButton(100000); // long press effectively dispabled with 100 seconds long press time
+        }
+
+        this.seshDrumKeysUserButtons = [4];
+        for(let i = 0; i < 4; i++){
+            this.seshDrumKeysUserButtons[i] = new managedButton(100000);
+        }
+
+        this.playStopButtons = [8];
+        for(let i = 0; i < 8; i++){
+            this.playStopButtons[i] = new managedButton();
+        }
+        this.numberOfPlayButtonsPressed = 0;
+    }
+}
+
+let launchpadManager = new launchpadManager();
+
+
 /****
  * end of managed button test.
  */
