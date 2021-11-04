@@ -205,7 +205,11 @@ settings.maxYsize = 64;
 // this class get instantiated for each pattern and tracks all the relevant info for that pattern
 class gridPattern {
     // 
-    constructor() {
+    constructor(flashPlayCB,playBtnOnCB,playBtnOffCB) {
+        // this.playButtonNumber = playBtnIndex;
+        this.playButtonOn = playBtnOnCB;
+        this.playButtonOff = playBtnOffCB;
+        this.flashPlayButton = flashPlayCB;
         this.playing = false;
         // array that holds all the notes in grid for this pattern
         this.grid = [];
@@ -411,7 +415,10 @@ class gridPattern {
     }
     // increases the tick on this pattern and if the tick has hit the step size, calls playStepX/Y
     tick(){
-        
+        if(this.tickCount % 24 == 0){
+            this.flashPlayButton();
+        }
+
         if(this.tickCount % this.stepSizeX == 0){
             this.playStepX();
         }
@@ -432,6 +439,7 @@ class gridPattern {
         this.tickCount = 0;
         this.currentYstep = 0;
         this.currentXstep = 0;
+        this.playButtonOn();
         copyCurrentPatternGridEnabledToGridColor();
     }
 
@@ -457,20 +465,52 @@ class gridPattern {
             return false;
         }
     }
+
+    turnOnPlayButton(){
+        this.playButtonOn();
+    }
 }
 
 
 
 var gridState = {};
+
+// otherColor is the 8 buttons at the top (0-7) and the 8 buttons on the right (8-15) RGB colors
+gridState.otherColor = [];
+for (let i = 0; i < 16; i++) {
+    gridState.otherColor[i] = {};
+    gridState.otherColor[i].r = 10;
+    gridState.otherColor[i].g = 0;
+    gridState.otherColor[i].b = 0;
+}
+gridState.logoColor = {};
+gridState.logoColor.r = 127;
+gridState.logoColor.g = 127;
+gridState.logoColor.b = 127;
+
 gridState.bpm = 120;
 gridState.gridMode = "normal";
 gridState.currentSelectedPattern = 0;
 gridState.numberOfPlayingPatterns = 0;
 gridState.patterns = [7];
 for (let i = 0; i < 7; i++) {
-    gridState.patterns[i] = new gridPattern();
+    gridState.patterns[i] = new gridPattern(()=>{
+        gridState.otherColor[15 - i].r = gridState.otherColor[15 - i].r==0?127:0;
+        gridState.otherColor[15 - i].g = gridState.otherColor[15 - i].g==0?127:0
+        gridState.otherColor[15 - i].b = gridState.otherColor[15 - i].b==0?127:0
+    },()=>{
+        gridState.otherColor[15 - i].r = 10;
+        gridState.otherColor[15 - i].g = 0;
+        gridState.otherColor[15 - i].b = 0;
+    },()=>{
+        gridState.otherColor[15 - i].r = 0;
+        gridState.otherColor[15 - i].g = 0;
+        gridState.otherColor[15 - i].b = 0;
+    });
+    gridState.patterns[i].playButtonOff();
     // @todo load saved data into patterns
 }
+gridState.patterns[0].playButtonOn();
 
 
 // ... receive MIDI messages ...
@@ -557,8 +597,10 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
             }
             case 19:{
                 // stop, mute, solo button
+                patternNum = 7;
 
                 gridState.currentSelectedPattern = 0;
+                // patternNum = 0;
 
                 // stop palying each pattern, reset it, and reset number of playing patterns. This will
                 // stop the global playing, tick, and clock output.
@@ -578,6 +620,18 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
         if(message[1] < 90){
             if(patternNum != gridState.currentSelectedPattern){
                 gridState.currentSelectedPattern = patternNum;
+                for(let e = 0; e < 7; e++){
+                    if(!gridState.patterns[e].playing){
+                        gridState.patterns[e].playButtonOff();
+                    }
+                }
+                if(patternNum<7){
+                    gridState.patterns[patternNum].playButtonOn();
+                }else{
+                    gridState.currentSelectedPattern = 0;
+                    gridState.patterns[0].playButtonOn();
+                }
+
             }else{
                 // toggle playing state for pattern
                 gridState.patterns[patternNum].playing = !gridState.patterns[patternNum].playing;
@@ -807,18 +861,7 @@ for (let x = 0; x < 8; x++) {
         gridState.gridColor[x][y].b = 0;
     }
 }
-// otherColor is the 8 buttons at the top (0-7) and the 8 buttons on the right (8-15) RGB colors
-gridState.otherColor = [];
-for (let i = 0; i < 16; i++) {
-    gridState.otherColor[i] = {};
-    gridState.otherColor[i].r = 10;
-    gridState.otherColor[i].g = 0;
-    gridState.otherColor[i].b = 0;
-}
-gridState.logoColor = {};
-gridState.logoColor.r = 127;
-gridState.logoColor.g = 127;
-gridState.logoColor.b = 127;
+
 
 
 
@@ -851,9 +894,6 @@ function copyCurrentPatternGridEnabledToGridColor() {
                 // gridState.gridColor[x][y].g = 0;
                 gridState.gridColor[x][y].b = 127;
             }
-                
-
-            
         }
     }
 }
