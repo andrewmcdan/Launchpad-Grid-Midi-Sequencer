@@ -614,17 +614,19 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
             }
         }
 
-        
-
-
+        // if the midi message is for one of the play buttons....
         if(message[1] < 90){
             if(patternNum != gridState.currentSelectedPattern){
                 gridState.currentSelectedPattern = patternNum;
+                // turn off all the play buttons but the selected pattern
                 for(let e = 0; e < 7; e++){
                     if(!gridState.patterns[e].playing){
                         gridState.patterns[e].playButtonOff();
                     }
                 }
+                // if the button that was pressed was anyhting but the stop button,
+                // turn on the play button for the pattern selected
+                // otherwise, turn on the first play button and select it.
                 if(patternNum<7){
                     gridState.patterns[patternNum].playButtonOn();
                 }else{
@@ -649,12 +651,14 @@ launchpadMidiIn.on('message', (deltaTime, message) => {
             }
         }
 
+        // ensure that the grid gets updated any time the selected pattern changes. 
         copyCurrentPatternGridEnabledToGridColor();
 
         if(gridState.numberOfPlayingPatterns == 0){
             gridState.playing = false;
         }
     }
+    
     
     if(message[0] == 176 && message[2] == 0 && message[1] < 90 && message[1] > 20){
         let playButtonUpTime = Date.now();
