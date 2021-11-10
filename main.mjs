@@ -1,15 +1,15 @@
 // import fs from 'fs';
 // import http from 'http';
 var __dirname = path.resolve(path.dirname(''));
-import { Server } from 'socket.io';
+// import { Server } from 'socket.io';
 import express from 'express';
 import { createServer } from 'http';
 
 const app = express(); 
 const server = createServer(app); 
-const socketio = new Server(server);
+// const socketio = new Server(server);
 
-socketio.attach(server);
+// socketio.attach(server);
 // socketio.set('transports', ['websocket']);
 
 // import os from 'os';
@@ -17,6 +17,9 @@ import midi from 'midi';
 import spawn from 'child_process';
 import path from 'path';
 import kill from 'tree-kill';
+
+// delay function that holds up code execution for "ms" milliseconds.
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 var midiJsChild;
 // var timingJsChild;
@@ -27,9 +30,9 @@ var launchpadFound = false;
 var serverIsListening = false;
 
 
-socketio.on("connection", socket => {
-    console.log(socket);
-})
+// socketio.on("connection", socket => {
+//     console.log(socket);
+// })
 
 console.log("Starting web server...");
 server.listen(8080);
@@ -67,6 +70,7 @@ setInterval(()=>{
         server.close(()=>{
             console.log("server no longer listening from main.mjs");
             serverIsListening = false;
+            delay(1000);
         })
         midiJsChild.on('exit', (code) => {
             console.log("midiJS exited. Will restart...");
