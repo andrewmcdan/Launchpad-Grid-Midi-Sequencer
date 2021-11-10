@@ -81,3 +81,12 @@ div {
     grid-column: 1;
     grid-row: 2;
 }
+
+#setNoteValuesContainer{
+    width:calc(100vw - 20px);
+    border-top: 1px solid black;
+}
+
+#setNoteValuesContainer div{
+    margin:1vw;
+}

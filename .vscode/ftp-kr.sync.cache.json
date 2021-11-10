@@ -1,4 +1,199 @@
 {
-  "ftp://10.0.0.89@pi": {},
+  "ftp://10.0.0.89@pi": {
+    "gridMidi": {
+      ".git": {},
+      ".gitignore": {
+        "type": "-",
+        "size": 14,
+        "lmtime": 0,
+        "modified": false
+      },
+      ".vscode": {},
+      "Grid Midi Controller.code-workspace": {
+        "type": "-",
+        "size": 253,
+        "lmtime": 0,
+        "modified": false
+      },
+      "READ.ME": {
+        "type": "-",
+        "size": 8,
+        "lmtime": 0,
+        "modified": false
+      },
+      "README": {
+        "type": "-",
+        "size": 258,
+        "lmtime": 0,
+        "modified": false
+      },
+      "index.html": {
+        "type": "-",
+        "size": 1632,
+        "lmtime": 0,
+        "modified": false
+      },
+      "index.html.css": {
+        "type": "-",
+        "size": 1428,
+        "lmtime": 0,
+        "modified": false
+      },
+      "index.html.js": {
+        "type": "-",
+        "size": 0,
+        "lmtime": 0,
+        "modified": false
+      },
+      "index2.html": {
+        "type": "-",
+        "size": 575,
+        "lmtime": 0,
+        "modified": false
+      },
+      "main.mjs": {
+        "type": "-",
+        "size": 4058,
+        "lmtime": 0,
+        "modified": false
+      },
+      "midi (conflict).mjs": {
+        "type": "-",
+        "size": 26890,
+        "lmtime": 0,
+        "modified": false
+      },
+      "midi.mjs": {
+        "type": "-",
+        "size": 40447,
+        "lmtime": 0,
+        "modified": false
+      },
+      "node.code-workspace": {
+        "type": "-",
+        "size": 253,
+        "lmtime": 0,
+        "modified": false
+      },
+      "node_modules": {},
+      "package-lock.json": {
+        "type": "-",
+        "size": 150323,
+        "lmtime": 0,
+        "modified": false
+      },
+      "package.json": {
+        "type": "-",
+        "size": 272,
+        "lmtime": 0,
+        "modified": false
+      },
+      "timing.mjs": {
+        "type": "-",
+        "size": 5525,
+        "lmtime": 0,
+        "modified": false
+      }
+    },
+    "home": {
+      "pi": {
+        "gridMidi": {
+          ".git": {},
+          ".gitignore": {
+            "type": "-",
+            "size": 14,
+            "lmtime": 0,
+            "modified": false
+          },
+          ".vscode": {},
+          "Grid Midi Controller.code-workspace": {
+            "type": "-",
+            "size": 253,
+            "lmtime": 0,
+            "modified": false
+          },
+          "READ.ME": {
+            "type": "-",
+            "size": 8,
+            "lmtime": 0,
+            "modified": false
+          },
+          "README": {
+            "type": "-",
+            "size": 258,
+            "lmtime": 0,
+            "modified": false
+          },
+          "index.html": {
+            "type": "-",
+            "size": 1632,
+            "lmtime": 0,
+            "modified": false
+          },
+          "index.html.css": {
+            "type": "-",
+            "size": 1428,
+            "lmtime": 0,
+            "modified": false
+          },
+          "index.html.js": {
+            "type": "-",
+            "size": 0,
+            "lmtime": 0,
+            "modified": false
+          },
+          "index2.html": {
+            "type": "-",
+            "size": 575,
+            "lmtime": 0,
+            "modified": false
+          },
+          "main.mjs": {
+            "type": "-",
+            "size": 4070,
+            "lmtime": 1635980714919,
+            "modified": false
+          },
+          "midi (conflict).mjs": {
+            "type": "-",
+            "size": 26890,
+            "lmtime": 0,
+            "modified": false
+          },
+          "midi.mjs": {
+            "type": "-",
+            "size": 45319,
+            "lmtime": 1635984613163,
+            "modified": false
+          },
+          "node.code-workspace": {
+            "type": "-",
+            "size": 253,
+            "lmtime": 0,
+            "modified": false
+          },
+          "node_modules": {},
+          "package-lock.json": {
+            "type": "-",
+            "size": 150323,
+            "lmtime": 0,
+            "modified": false
+          },
+          "package.json": {
+            "type": "-",
+            "size": 272,
+            "lmtime": 0,
+            "modified": false
+          },
+          "timing.mjs": {
+            "type": "-",
+            "size": 5525,
+            "lmtime": 0,
+            "modified": false
+          }
+        }
+      }
+    }
+  },
   "$version": 1
 }
