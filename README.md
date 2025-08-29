@@ -1,4 +1,4 @@
-###Overview
+# Overview
 Turn a Launchpad Mini MkII midi controller into a sequencer. Runs on node.js (on linux) and optimized for Raspberry Pi.
 
 --------------------
